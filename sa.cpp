@@ -1,10 +1,11 @@
 #include "main.h"
-#include "util/gtahook.h"
+#include "util/armhook.h"
 #include "sa.h"
 #include "samp.h"
 
-bool bGameStarted = false;
+extern ARMHook *pARMHook;
 
+bool bGameStarted = false;
 void InstallPatchesInGame();
 
 void (*Render2dStuff)();
@@ -29,7 +30,7 @@ void InstallSAHooksInGame()
 
 void InstallSAHooks()
 {
-	// GTAHook_SetUpHook(g_libGTASA + 0x003F641C, (uintptr_t)Render2dStuff_hook, (uintptr_t*)&Render2dStuff);
+	LOGI("SA install hooks..");
 
-	// wtf
+	// pARMHook->installHook(g_libGTASA + 0x003F641C, (uintptr_t)Render2dStuff_hook, (uintptr_t*)&Render2dStuff, true);
 }

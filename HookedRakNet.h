@@ -21,7 +21,8 @@ public:
 
 	bool Connect(const char* host, unsigned short serverPort, unsigned short clientPort, unsigned int depreciated, int threadSleepTimer);
 	void Disconnect(unsigned int blockDuration, unsigned char orderingChannel);
-
+	bool SetMTUSize(int size);
+	
 public:
 	RakClientInterface* m_pHookedRakClient;
 };

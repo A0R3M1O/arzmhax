@@ -1,9 +1,10 @@
 #include "main.h"
-#include "util/samphook.h"
 #include "settings.h"
+#include "util/armhook.h"
 #include "HookedRakNet.h"
 
 extern CSettings *pSettings;
+extern ARMHook *pARMHook;
 
 CHookedRakClientInterface *pHookedRakClientInterface = nullptr;
 
@@ -14,6 +15,8 @@ void InstallSAMPHooksInGame()
 
 void InstallSAMPHooks()
 {
+	LOGI("SA-MP install hooks..");
+
 	// raknet hook
 	pHookedRakClientInterface = new CHookedRakClientInterface();
 }

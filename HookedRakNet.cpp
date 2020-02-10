@@ -1,7 +1,8 @@
 #include "main.h"
 #include "HookedRakNet.h"
-#include "util/samphook.h"
+#include "util/armhook.h"
 
+extern ARMHook *pARMHook;
 extern CHookedRakClientInterface *pHookedRakClientInterface;
 
 RakClientInterface* (*RakNetworkFactory__GetRakClientInterface)();
@@ -14,8 +15,9 @@ RakClientInterface* RakNetworkFactory__GetRakClientInterface_hook()
 
 CHookedRakClientInterface::CHookedRakClientInterface()
 {
-	// SAMPHook_SetUpHook(g_libSAMP + 0x000BFDD4, (uintptr_t)RakNetworkFactory__GetRakClientInterface_hook, (uintptr_t*)&RakNetworkFactory__GetRakClientInterface);
-	// wtf.. why?
+	LOGI("CHookedRakClientInterface :: install hooks..");
+	
+	// pARMHook->installHook(g_libSAMP + 0x000BFDD4, (uintptr_t)RakNetworkFactory__GetRakClientInterface_hook, (uintptr_t*)&RakNetworkFactory__GetRakClientInterface, false);
 }
 
 bool CHookedRakClientInterface::RPC(int* uniqueID, RakNet::BitStream *parameters, PacketPriority priority, PacketReliability reliability, char orderingChannel, bool shiftTimestamp)
@@ -51,12 +53,21 @@ bool CHookedRakClientInterface::Connect(const char* host, unsigned short serverP
 
 void CHookedRakClientInterface::Disconnect(unsigned int blockDuration, unsigned char orderingChannel)
 {
-	m_pHookedRakClient->Disconnect(blockDuration, orderingChannel);
+	if(m_pHookedRakClient)
+		m_pHookedRakClient->Disconnect(blockDuration, orderingChannel);
+}
+
+bool CHookedRakClientInterface::SetMTUSize(int size)
+{
+	if(!m_pHookedRakClient) return false;
+
+	return m_pHookedRakClient->SetMTUSize(size);
 }
 
 BYTE GetPacketID(Packet *p)
 {
-	if (p == 0) return 255;
+	if(p == 0) 
+		return 255;
 
 	return (unsigned char)p->data[0];
 }

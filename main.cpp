@@ -22,6 +22,13 @@ const char* g_pszStorage = nullptr;
 
 void *Init(void *p)
 {
+	if(!g_pszStorage)
+	{
+		g_pszStorage = (const char*)(g_libGTASA + 0x006D687C);
+
+		if(!g_pszStorage) std::terminate();
+	}
+
 	while(*(uintptr_t *)(g_libGTASA + 0x00A987C8) != 7) usleep(500);
 
 	// init settings

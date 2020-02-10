@@ -6,13 +6,6 @@ CSettings::CSettings()
 {	
 	LOGI("CSettings init..");
 
-	if(!g_pszStorage)
-	{
-		g_pszStorage = (const char*)(g_libGTASA + 0x006D687C);
-
-		if(!g_pszStorage) return;
-	}
-
 	char buff[0x7F];
 	sprintf(buff, "%sSAMP/sets.ini", g_pszStorage);
 
